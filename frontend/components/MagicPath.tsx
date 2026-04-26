@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
 const MAGIC_STATE_KEY = "dnaMagicDemoState";
 const MAGIC_PAYLOAD_KEY = "dnaMagicDemoPayload";
+const AUTO_ADVANCE_MS = 3500;
 
 type MagicStep = "dashboard" | "graph" | "timeline" | "copilot";
 
@@ -36,6 +37,10 @@ function nextStep(step: MagicStep): MagicStep | null {
   return STEPS[idx + 1].key;
 }
 
+function stepPath(step: MagicStep): string {
+  return STEPS.find((s) => s.key === step)?.path || "/";
+}
+
 export function MagicPath() {
   const router = useRouter();
   const pathname = usePathname();
@@ -45,6 +50,19 @@ export function MagicPath() {
 
   const isMagicMode = searchParams.get("magic") === "1";
   const routeStep = useMemo(() => stepFromPath(pathname), [pathname]);
+
+  const gotoStep = useCallback((step: MagicStep) => {
+    const path = `${stepPath(step)}?magic=1`;
+    router.push(path);
+    // Hard navigation fallback: avoids occasional App Router no-op transitions.
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        if (window.location.pathname !== stepPath(step)) {
+          window.location.assign(path);
+        }
+      }, 300);
+    }
+  }, [router]);
 
   useEffect(() => {
     const raw = localStorage.getItem(MAGIC_STATE_KEY);
@@ -75,11 +93,10 @@ export function MagicPath() {
     if (!upcoming) return;
 
     const timer = setTimeout(() => {
-      const path = STEPS.find((x) => x.key === upcoming)?.path || "/";
-      router.push(`${path}?magic=1`);
-    }, 9000);
+      gotoStep(upcoming);
+    }, AUTO_ADVANCE_MS);
     return () => clearTimeout(timer);
-  }, [isMagicMode, routeStep, router, state]);
+  }, [gotoStep, isMagicMode, routeStep, state]);
 
   async function runMagicDemo() {
     setLoading(true);
@@ -102,7 +119,7 @@ export function MagicPath() {
       };
       localStorage.setItem(MAGIC_STATE_KEY, JSON.stringify(nextState));
       setState(nextState);
-      router.push("/?magic=1");
+      gotoStep("dashboard");
       router.refresh();
     } catch (err) {
       // eslint-disable-next-line no-alert
@@ -155,8 +172,7 @@ export function MagicPath() {
               onClick={() => {
                 const upcoming = nextStep(routeStep);
                 if (!upcoming) return;
-                const path = STEPS.find((x) => x.key === upcoming)?.path || "/";
-                router.push(`${path}?magic=1`);
+                gotoStep(upcoming);
               }}
             >
               Jump to Next Scene
