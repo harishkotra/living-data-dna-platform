@@ -2,7 +2,6 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
 const MAGIC_PAYLOAD_KEY = "dnaMagicDemoPayload";
 const QUICK_QUESTIONS = [
   "Can I trust this dataset today?",
@@ -21,7 +20,7 @@ export function CopilotClient() {
   useEffect(() => {
     const loadDataset = async () => {
       try {
-        const res = await fetch(`${API_BASE}/graph`);
+        const res = await fetch("/api/graph");
         const data = await res.json();
         const firstDataset = data?.nodes?.[0]?.id;
         if (firstDataset) {
@@ -61,7 +60,7 @@ export function CopilotClient() {
     setAnswer("");
     setSections({});
     try {
-      const res = await fetch(`${API_BASE}/analyze`, {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dataset, question }),

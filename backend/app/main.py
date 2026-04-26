@@ -11,9 +11,16 @@ from app.services.ingestion import MetadataIngestionService
 
 app = FastAPI(title="Living Data DNA Platform API", version="0.1.0")
 
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://helix-dna-frontend-ojug5k4mta-uc.a.run.app",
+    "https://helix-dna-frontend-330015043682.us-central1.run.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
