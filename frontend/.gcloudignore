@@ -1,0 +1,10 @@
+# Cloud Build source exclusions
+node_modules/
+.next/
+out/
+coverage/
+.npm/
+.pnpm-store/
+*.log
+.env
+.env.*

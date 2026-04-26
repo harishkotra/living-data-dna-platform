@@ -1,0 +1,9 @@
+# Cloud Build source exclusions
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.venv/
+venv/
+.env
+.env.*
