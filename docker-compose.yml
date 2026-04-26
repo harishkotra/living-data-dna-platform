@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: dna
+      POSTGRES_USER: dna
+      POSTGRES_PASSWORD: dna
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://dna:dna@postgres:5432/dna
+      OPENMETADATA_URL: ${OPENMETADATA_URL:-}
+      OPENMETADATA_TOKEN: ${OPENMETADATA_TOKEN:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+      BRIGHTDATA_API_TOKEN: ${BRIGHTDATA_API_TOKEN:-}
+      BRIGHTDATA_PRO_MODE: ${BRIGHTDATA_PRO_MODE:-false}
+      BRIGHTDATA_GROUPS: ${BRIGHTDATA_GROUPS:-geo,code,research}
+      BRIGHTDATA_TOOLS: ${BRIGHTDATA_TOOLS:-}
+      BRIGHTDATA_MCP_BASE_URL: ${BRIGHTDATA_MCP_BASE_URL:-https://mcp.brightdata.com/mcp}
+      DEMO_SEED_ENABLED: ${DEMO_SEED_ENABLED:-false}
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      NEXT_PUBLIC_API_BASE: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

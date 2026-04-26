@@ -1,0 +1,101 @@
+# ------------------------------
+# OS / Editor
+# ------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ------------------------------
+# Env / Secrets
+# ------------------------------
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# ------------------------------
+# Logs / Runtime
+# ------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------
+# Python (backend)
+# ------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+.venv/
+venv/
+env/
+ENV/
+
+# ------------------------------
+# Node / Next.js (frontend)
+# ------------------------------
+node_modules/
+.next/
+out/
+.turbo/
+.npm/
+.pnpm-store/
+.parcel-cache/
+coverage/
+*.tsbuildinfo
+
+# ------------------------------
+# Build / Artifacts
+# ------------------------------
+dist/
+build/
+tmp/
+.temp/
+*.pid
+*.pid.lock
+
+# ------------------------------
+# Docker / Compose local state
+# ------------------------------
+.docker/
+
+# OpenMetadata local stack data and generated files
+openmetadata-docker/docker-volume/
+openmetadata-docker/.env
+openmetadata-docker/*.log
+openmetadata-docker/logs/
+
+# ------------------------------
+# Databases / Binary blobs
+# ------------------------------
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# ------------------------------
+# Misc
+# ------------------------------
+*.bak
+*.tmp
