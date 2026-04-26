@@ -2,6 +2,16 @@
 
 This project builds a **Data DNA Graph** from metadata, tracks mutations over time, and uses AI agents to detect, analyze, and simulate fixes.
 
+### Video Pitch: [https://youtu.be/jrAPNxq0-iw](https://youtu.be/jrAPNxq0-iw)
+
+### Screenshots
+
+<img width="4018" height="2600" alt="helix-1" src="https://github.com/user-attachments/assets/61125d1b-c3ad-434e-a7d0-868d177fe930" />
+<img width="4018" height="5202" alt="helix-2" src="https://github.com/user-attachments/assets/7cfecd35-ec36-419a-bbc4-a170014c920e" />
+<img width="4018" height="3704" alt="helix-3" src="https://github.com/user-attachments/assets/27a0f14e-3028-4fff-9294-fb10e6787167" />
+<img width="4018" height="3236" alt="helix-4" src="https://github.com/user-attachments/assets/143e38a4-6345-48b4-a217-60d6b5ea7c7a" />
+
+
 ## What It Delivers
 
 - OpenMetadata integration module (real REST calls + normalization)
